@@ -3,6 +3,8 @@
 		<div class="form-group">
 			<label for="inputNome">Nome</label> <input type="text" required class="form-control" name="nome" id="inputNome">
 		</div>
+		<input type="hidden" name="el">
+		<input type="hidden" name="mod">
 
 		<div class="form-group">
 			<label for="inputCognome">Cognome</label> <input type="text" required class="form-control" name="cognome" id="inputCognome">

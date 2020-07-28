@@ -1,8 +1,6 @@
 package it.rentalcar.model;
 
 import java.io.Serializable;
-import java.text.DateFormat;
-
 
 import java.util.Date;
 import java.util.List;
@@ -18,7 +16,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
 
 
 @Entity(name = "Utente")

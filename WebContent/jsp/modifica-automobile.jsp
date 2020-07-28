@@ -29,6 +29,6 @@
 			<label for="">Furgone</label>
 		</div>
 
-		<button type="submit" class="btn btn-primary">Registra auto</button>
+		<button type="submit" class="btn btn-primary">Modifica auto</button>
 	</form>
 </div>

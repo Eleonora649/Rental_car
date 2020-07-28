@@ -1,24 +1,18 @@
 package it.rentalcar.service;
 
-import java.nio.file.attribute.UserPrincipalLookupService;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Query;
-
 import org.hibernate.HibernateException;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 
 import com.mysql.cj.util.StringUtils;
 
 import it.rentalcar.dao.UtenteDao;
 import it.rentalcar.model.Utente;
-import it.rentalcar.util.HibernateUtil;
 
 public class UtenteService {
 
@@ -55,7 +49,7 @@ public class UtenteService {
 	}
 
 	public List<Utente> listAll() {
-//		return (List<Utente>) userDao.findAll();
+		//		return (List<Utente>) userDao.findAll();
 		List<Utente> users = null; 
 		if (sessionFactory == null) {
 			users = userDao.findAll();
@@ -67,8 +61,8 @@ public class UtenteService {
 		Utente utente = null;
 		if (sessionFactory == null){
 			utente = userDao.findUtenteId(id);
-        }
-			
+		}
+
 		return utente;
 	}
 
@@ -76,9 +70,45 @@ public class UtenteService {
 		Utente utente = userDao.delete(id);
 	}
 
-	public void update(int id, Utente utente) {
-		
-		userDao.updateUtente(utente);
+	public Utente update(int id, String nome, String cognome, String data, String email, String password) throws NullPointerException {
+			Utente u = (Utente) userDao.findUtenteId(id);
+			final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			Date birthDate = null;
+			try {
+				birthDate = dateFormat.parse(data);
+			} catch (ParseException e) {
+				e.printStackTrace();
+				throw new NullPointerException();
+			}
+			if(u!=null) {
+				try {
+					u.setNome(nome);
+					u.setCognome(cognome);
+					u.setDataDiNascita(birthDate);
+					u.setEmail(email);
+					u.setPassword(password);
+					
+					userDao.updateUtente(u);
+
+				} catch (Exception e) {
+					e.printStackTrace();
+					throw new NullPointerException();
+				}
+			}
+		return u;
 	}
 
+	
+	public Utente ritornaDati(int id) { 
+		Utente utente = (Utente) userDao.ritornaDati(id);
+		utente.getNome();
+		utente.getCognome();
+		utente.getDataDiNascita();
+		utente.getEmail();
+		utente.getPassword();
+		System.out.println(utente.getNome() +" "+ utente.getCognome());
+		System.out.println(utente.getEmail() +" "+ utente.getDataDiNascita());
+		return utente; 
+	}
+	 
 }

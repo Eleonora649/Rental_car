@@ -2,95 +2,119 @@ package it.rentalcar.dao;
 
 import java.util.List;
 
+import javax.persistence.Query;
+
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
 
 import it.rentalcar.model.Automobile;
+import it.rentalcar.model.Categoria;
+import it.rentalcar.util.HibernateUtil;
 
 public class AutomobileDao {
-
 	private Session currentSession;
 	private Transaction currentTransaction;
-	
+
 	public AutomobileDao() {
 	}
+
+	public void persist(Automobile auto) throws HibernateException{
+		Transaction transaction = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+
+			transaction = session.beginTransaction(); 
+			session.save(auto); 
+			transaction.commit(); 
+
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			} e.printStackTrace();
+		}
+	}
+
+	public Categoria findCategoriaId(int id) {
+		Transaction transaction = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			transaction = session.beginTransaction();
+
+			Categoria cat =(Categoria) session.find(Categoria.class, id); 
+			System.out.println(cat.getNome());
+
+			transaction.commit();
+			return cat;
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			} e.printStackTrace();
+			return null;
+		}
+	}
+
+	public List<Automobile> findAll() {
+		Transaction transaction = null;
+		List<Automobile> auto = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			transaction = session.beginTransaction();
+			Query query = session.createNamedQuery("Automobile.findAll");
+			auto = query.getResultList();
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return auto;
+	}	
 	
-	public Session openCurrentSession() {
-        currentSession = getSessionFactory().openSession();
-        return currentSession;
-    }
- 
-    public Session openCurrentSessionwithTransaction() {
-        currentSession = getSessionFactory().openSession();
-        currentTransaction = currentSession.beginTransaction();
-        return currentSession;
-    }
-     
-    public void closeCurrentSession() {
-        currentSession.close();
-    }
-     
-    public void closeCurrentSessionwithTransaction() {
-        currentTransaction.commit();
-        currentSession.close();
-    }
-     
-    private static SessionFactory getSessionFactory() {
-        Configuration configuration = new Configuration().configure();
-        StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
-                .applySettings(configuration.getProperties());
-        SessionFactory sessionFactory = configuration.buildSessionFactory(builder.build());
-        return sessionFactory;
-    }
- 
-    public Session getCurrentSession() {
-        return currentSession;
-    }
- 
-    public void setCurrentSession(Session currentSession) {
-        this.currentSession = currentSession;
-    }
- 
-    public Transaction getCurrentTransaction() {
-        return currentTransaction;
-    }
- 
-    public void setCurrentTransaction(Transaction currentTransaction) {
-        this.currentTransaction = currentTransaction;
-    }
-    
-    public void persist(Automobile entity) {
-        getCurrentSession().save(entity);
-    }
- 
-    public void update(Automobile entity) {
-        getCurrentSession().update(entity);
-    }
- 
-    public Automobile findById(String id) {
-        Automobile auto = (Automobile) getCurrentSession().get(Automobile.class, id);
-        return auto; 
-    }
- 
-    public void delete(Automobile entity) {
-        getCurrentSession().delete(entity);
-    }
- 
-    @SuppressWarnings("unchecked")
-    public List<Automobile> findAll() {
-        List<Automobile> auto = (List<Automobile>) getCurrentSession().createQuery("from automobile").list();
-        return auto;
-    }
- 
-    public void deleteAll() {
-        List<Automobile> entityList = findAll();
-        for (Automobile entity : entityList) {
-            delete(entity);
-        }
-    }
+	public Automobile delete(int id) {
+		Transaction transaction = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			transaction = session.beginTransaction();
 
+			Automobile auto = findAutomobileId(id);
+			session.remove(auto);
 
+			transaction.commit();
+			return auto;
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			} e.printStackTrace();
+			return null;
+		}
+	}
+
+	public Automobile findAutomobileId(int id) {
+		Transaction transaction = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			transaction = session.beginTransaction();
+
+			Automobile auto = session.find(Automobile.class, id); 
+			System.out.println(auto.getModello() +" "+ auto.getTarga());
+
+			transaction.commit();
+			return auto;
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			} e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public void updateAutomobile(Automobile auto) {
+		Transaction transaction = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			transaction = session.beginTransaction();
+			session.merge(auto);
+			transaction.commit();
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			e.printStackTrace();
+		}
+	}
 }
+
+

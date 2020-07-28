@@ -1,13 +1,14 @@
 package it.rentalcar.model;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
-import java.util.Date;
 import java.util.List;
 
 
 @Entity
 @Table(name="automobile")
+@NamedQuery(name="Automobile.findAll", query="SELECT a FROM Automobile a")
 public class Automobile implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -16,7 +17,7 @@ public class Automobile implements Serializable {
 	private int idAutomobile;
 	
 	@Column(name="anno_immatricolazione")
-	private Date annoImmatricolazione;
+	private int annoImmatricolazione;
 	
 	@Column(name="casa_costruttrice")
 	private String casaCostruttrice;
@@ -33,6 +34,14 @@ public class Automobile implements Serializable {
 
 	public Automobile() {
 	}
+	
+	public Automobile(String modello, String targa, String casaCostruttrice, int annoImmatricolazione, Categoria categoria) {
+		this.modello = modello;
+		this.targa = targa;
+		this.casaCostruttrice = casaCostruttrice;
+		this.annoImmatricolazione = annoImmatricolazione;
+		this.categoria=categoria;
+	}
 
 	public int getIdAutomobile() {
 		return this.idAutomobile;
@@ -42,11 +51,11 @@ public class Automobile implements Serializable {
 		this.idAutomobile = idAutomobile;
 	}
 
-	public Date getAnnoImmatricolazione() {
+	public int getAnnoImmatricolazione() {
 		return this.annoImmatricolazione;
 	}
 
-	public void setAnnoImmatricolazione(Date annoImmatricolazione) {
+	public void setAnnoImmatricolazione(int annoImmatricolazione) {
 		this.annoImmatricolazione = annoImmatricolazione;
 	}
 
