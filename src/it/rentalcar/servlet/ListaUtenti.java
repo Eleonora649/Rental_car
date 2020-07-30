@@ -25,6 +25,7 @@ public class ListaUtenti extends HttpServlet {
 			request.setAttribute("listaUtenti", listaUtenti);
 			
 		request.getServletContext().getRequestDispatcher("/jsp/header.jsp").include(request, response);
+		request.getServletContext().getRequestDispatcher("/jsp/navbar.jsp").include(request, response);
 		request.getServletContext().getRequestDispatcher("/jsp/lista-utenti.jsp").include(request, response);
 		request.getServletContext().getRequestDispatcher("/jsp/footer.jsp").include(request, response);
 	}

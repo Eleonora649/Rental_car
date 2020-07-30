@@ -5,7 +5,7 @@
 <table class="table">
 	<thead>
 		<tr>
-			<th scope="col">#</th>
+			<th scope="col"></th>
 			<th scope="col">Nome</th>
 			<th scope="col">Cognome</th>
 			<th scope="col">Data di nascita</th>
@@ -21,8 +21,8 @@
 				<td><fmt:formatDate value='${utete.dataDiNascita}' var='data' type='date' pattern='yyyy-MM-dd'/>${utente.dataDiNascita}</td>				
 				<td>${utente.email}</td>
 				<td>
-					<button type="submit" id="buttonDelete" value="" onclick="sendForm('${utente.idUtente}','eliminautente');"> Elimina </button>
-					<button type="submit" id="buttonEdit" value="" onclick="sendForm('${utente.idUtente}','modificautente');"> Modifica </button>
+					<c:if test="${currentUser=admin}"><button type="submit" id="buttonDelete" value="" onclick="sendForm('${utente.idUtente}','eliminautente');"> Elimina </button>
+					<button type="submit" id="buttonEdit" value="" onclick="sendForm('${utente.idUtente}','modificautente');"> Modifica </button> </c:if>
 				</td> 
 			</tr>
 		</c:forEach>

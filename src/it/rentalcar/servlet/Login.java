@@ -36,7 +36,7 @@ public class Login extends HttpServlet {
 		HttpSession session = request.getSession();
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
-
+		
 		LoginService login = new LoginService();
 
 		Utente currentUser = null;
@@ -61,7 +61,5 @@ public class Login extends HttpServlet {
 			response.sendRedirect("login");
 		}
 	}
-
-
 
 }

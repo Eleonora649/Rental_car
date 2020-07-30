@@ -44,27 +44,38 @@ public class PrenotazioneService {
 		UtenteService userS = new UtenteService();
 		int idUtente=Integer.parseInt(utente);
 		Utente user = userS.findUtenteId(idUtente);
-		
+
 		AutomobileService autoS = new AutomobileService();
 		int idAutomobile = Integer.parseInt(automobile);
 		Automobile auto = autoS.findAutomobileId(idAutomobile);
-		
-		if(!StringUtils.isNullOrEmpty(inizioPrenotazione) && !StringUtils.isNullOrEmpty(finePrenotazione)) {
-			try {
-				prenotazione = new Prenotazione(inizioPren, finePren, user, auto);
-				prenotazioneDao.persist(prenotazione);
-			} catch (HibernateException e) {
-				throw e;
-			} catch (Exception e) {
-				e.printStackTrace();
+
+		if(getPrenotazioneId(idAutomobile)==true) {
+			if(!StringUtils.isNullOrEmpty(inizioPrenotazione) && !StringUtils.isNullOrEmpty(finePrenotazione)) {
+				try {
+					prenotazione = new Prenotazione(inizioPren, finePren, user, auto);
+					prenotazioneDao.persist(prenotazione);
+				} catch (HibernateException e) {
+					throw e;
+				} catch (Exception e) {
+					e.printStackTrace();
+					throw new NullPointerException();
+				}
+			} else {
 				throw new NullPointerException();
 			}
-		} else {
-			throw new NullPointerException();
 		}
 		return prenotazione;
-	}
+	}	
 
+	private boolean getPrenotazioneId(int id) {
+		Automobile auto = prenotazioneDao.findAutomobileById(id);
+		if(auto!=null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	public List<Prenotazione> listAll() {
 		List<Prenotazione> prenotazione = null; 
 		if (sessionFactory == null) {

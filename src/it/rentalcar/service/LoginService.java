@@ -6,10 +6,13 @@ import it.rentalcar.model.Utente;
 public class LoginService {
 	private static LoginDao logindao;
 
-	public Utente authenticate(String email, String password) {
+	public LoginService() {
 		logindao = new LoginDao();
+	}
+	
+	public Utente authenticate(String email, String password) {
 		Utente utente = logindao.findUserByEmail(email);
-		System.out.println(utente.getEmail());
+//		System.out.println(utente.getEmail());
 
 		if (!(utente != null && utente.getEmail().equals(email) 
 				&& utente.getPassword().equals(password))) {
