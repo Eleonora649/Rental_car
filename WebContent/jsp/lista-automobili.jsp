@@ -25,6 +25,7 @@
 				<td>
 					<a href="eliminaauto?el=<c:out value="${auto.idAutomobile}"/>" type="button" class="btn btn-danger"> Elimina </a>
 					<a href="modificaauto?mod=<c:out value="${auto.idAutomobile}"/>" type="button" class="btn btn-danger"> Modifica </a>
+					<a href="prenotaauto?pren=<c:out value="${auto.idAutomobile}"/>" type="button" class="btn btn-danger"> Prenota</a>
 				</td>
 			</tr>
 		</c:forEach>

@@ -3,7 +3,6 @@
 
 <div class="container">
 	<form method="post">
-		<c:out value="${utente.id}"/>
 			<div class="form-group">
 				<label for="inputNome">Nome</label> 
 				<input type="text" required class="form-control" name="nome" id="inputNome" value="${utente.nome}"/>

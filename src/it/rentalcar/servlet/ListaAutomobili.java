@@ -28,6 +28,7 @@ public class ListaAutomobili extends HttpServlet {
 		request.setAttribute("listaAutomobili", listaAutomobili);
 		
 	request.getServletContext().getRequestDispatcher("/jsp/header.jsp").include(request, response);
+	request.getServletContext().getRequestDispatcher("/jsp/navbar.jsp").include(request, response);
 	request.getServletContext().getRequestDispatcher("/jsp/lista-automobili.jsp").include(request, response);
 	request.getServletContext().getRequestDispatcher("/jsp/footer.jsp").include(request, response);
 	}

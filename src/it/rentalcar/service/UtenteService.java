@@ -49,11 +49,10 @@ public class UtenteService {
 	}
 
 	public List<Utente> listAll() {
-		//		return (List<Utente>) userDao.findAll();
 		List<Utente> users = null; 
 		if (sessionFactory == null) {
 			users = userDao.findAll();
-		}
+		} 
 		return users;
 	}
 
@@ -62,12 +61,11 @@ public class UtenteService {
 		if (sessionFactory == null){
 			utente = userDao.findUtenteId(id);
 		}
-
 		return utente;
 	}
 
 	public void delete(int id) {
-		Utente utente = userDao.delete(id);
+		userDao.delete(id);
 	}
 
 	public Utente update(int id, String nome, String cognome, String data, String email, String password) throws NullPointerException {
@@ -98,6 +96,9 @@ public class UtenteService {
 		return u;
 	}
 
+	public Utente findUtente(String email, String password) {
+		return null;
+	}
 	
 	public Utente ritornaDati(int id) { 
 		Utente utente = (Utente) userDao.ritornaDati(id);

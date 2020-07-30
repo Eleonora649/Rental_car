@@ -1,5 +1,6 @@
 package it.rentalcar.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -12,7 +13,9 @@ import it.rentalcar.model.Utente;
 import it.rentalcar.util.HibernateUtil;
 
 public class UtenteDao {
-
+	private Session currentSession;
+	private Transaction currentTransaction;
+	
 	public UtenteDao() {
 	}
 
@@ -33,15 +36,19 @@ public class UtenteDao {
 
 	public List<Utente> findAll() {
 		Transaction transaction = null;
-		List<Utente> users = null;
+		List<Utente> users =new ArrayList<Utente>();
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-			transaction = session.beginTransaction();
+			session.beginTransaction();
 			Query query = session.createNamedQuery("Utente.findAll");
 			users = query.getResultList();
-			transaction.commit();
+//			transaction.commit();
+			session.getTransaction().commit();
+			session.close();
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+			
+		} 
+//		System.out.println(users.size());
 		return users;
 	}	
 
@@ -98,6 +105,25 @@ public class UtenteDao {
 		}
 	}
 
+	public Utente findUtenteEmail(String email) {
+		Transaction transaction = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			transaction = session.beginTransaction();
+
+			Utente utente = session.find(Utente.class, email); 
+			session.setProperty("email", email);
+			
+			transaction.commit();
+			return utente;
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			} e.printStackTrace();
+			return null;
+		}
+	}
+	
+	
 	public Utente ritornaDati (int id) { 
 		Transaction transaction = null; 
 		

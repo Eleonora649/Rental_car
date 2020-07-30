@@ -18,20 +18,16 @@
 				<th scope="row"></th>
 				<td>${utente.nome}</td>
 				<td>${utente.cognome}</td>
-				<td><fmt:formatDate value='${utete.dataDiNascita}' var='data' type='date' pattern='yyyy-MM-dd'/>${utente.dataDiNascita}
-				<%-- <fmt:formatDate type="string" pattern="yyyy-MM-dd" value="${utete.dataDiNascita}"/> --%>
-				</td>
+				<td><fmt:formatDate value='${utete.dataDiNascita}' var='data' type='date' pattern='yyyy-MM-dd'/>${utente.dataDiNascita}</td>				
 				<td>${utente.email}</td>
-											<%-- <td>
-												<a href="eliminautente?el=<c:out value="${utente.idUtente}"/>" type="button" class="btn btn-danger"> Elimina </a>
-												<a href="modificautente?mod=<c:out value="${utente.idUtente}"/>" type="button" class="btn btn-danger"> Modifica </a>
-											</td> --%>
-				<td><form method="post" action="" name="myForm">
-						<input type="button" id="idUtente" value="" onclick="submit"> Elimina </input>
-						<input type="button" id="idUtente" value="" onclick="submit"> Modifica </input>
-				</form></td> 
+				<td>
+					<button type="submit" id="buttonDelete" value="" onclick="sendForm('${utente.idUtente}','eliminautente');"> Elimina </button>
+					<button type="submit" id="buttonEdit" value="" onclick="sendForm('${utente.idUtente}','modificautente');"> Modifica </button>
+				</td> 
 			</tr>
 		</c:forEach>
 	</tbody>
 </table>
-
+<form method="post" action="listautenti" name="myForm">
+	<input type="hidden" id="idUtente" name="idUtente" />
+</form>

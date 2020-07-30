@@ -1,0 +1,11 @@
+.container {
+	margin-top: 20px;
+    width: fit-content;
+}
+
+.bottone {
+	max-width: min-content;
+
+    padding: revert;
+
+}

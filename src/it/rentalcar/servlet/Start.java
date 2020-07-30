@@ -18,7 +18,7 @@ public class Start extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		request.getServletContext().getRequestDispatcher("/jsp/header.jsp").include(request, response);
-		request.getServletContext().getRequestDispatcher("/jsp/form-utente.jsp").include(request, response);
+		request.getServletContext().getRequestDispatcher("/jsp/navbar.jsp").include(request, response);
 		request.getServletContext().getRequestDispatcher("/jsp/footer.jsp").include(request, response);
 	}
 	

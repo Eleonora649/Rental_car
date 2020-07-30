@@ -6,6 +6,7 @@ import java.util.Date;
 
 @Entity
 @Table(name="prenotazione")
+@NamedQuery(name="Prenotazione.findAll", query="SELECT p FROM Prenotazione p")
 public class Prenotazione implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -28,6 +29,13 @@ public class Prenotazione implements Serializable {
 	private Automobile automobile;
 
 	public Prenotazione() {
+	}
+
+	public Prenotazione(Date inizioPrenotazione, Date finePrenotazione, Utente utente, Automobile automobile) {
+		this.inizioPrenotazione=inizioPrenotazione;
+		this.finePrenotazione=finePrenotazione;
+		this.utente=utente;
+		this.automobile=automobile;
 	}
 
 	public int getIdPrenotazione() {
