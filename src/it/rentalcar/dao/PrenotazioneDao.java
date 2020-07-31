@@ -1,5 +1,6 @@
 package it.rentalcar.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -85,8 +86,24 @@ public class PrenotazioneDao {
 		}
 
 	}
+	
+	public Prenotazione findPrenotazioneExist(Automobile auto, Date inizio) { //trova l'automobile associata ad una data di prenotazione
+		Transaction transaction = null;
+		Prenotazione pren = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			transaction = session.beginTransaction();
+			pren = (Prenotazione) session.createQuery("SELECT * FROM Prenotazione p WHERE p.fine_prenotazione>=:inizio and id_automobile=:idAutomobile")
+					.setParameter("idAuto", auto.getIdAutomobile()).uniqueResult();
+			transaction.commit();
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			} e.printStackTrace();
+		}
+		return pren;
+	}
 
-	public void updatePrenotazione (Prenotazione entity) {
+	public void updatePrenotazione(Prenotazione entity) {
 		Transaction transaction = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();
@@ -98,38 +115,6 @@ public class PrenotazioneDao {
 			}
 			e.printStackTrace();
 		}
-	}
-
-	public Utente findUtenteId(int id) {
-		
-		UtenteService utenteS = new UtenteService();
-		Utente utente = utenteS.findUtenteId(id);
-		return utente;
-		
-	}
-
-	public Automobile findAutomobileId(int id) {
-		
-		AutomobileService autoS = new AutomobileService();
-		Automobile auto = autoS.findAutomobileId(id);
-		return auto;
-	}
-	
-	public Automobile findAutomobileById(int id) {
-		Transaction transaction = null;
-		Automobile auto = null;
-		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-			transaction = session.beginTransaction();
-			auto = (Automobile) session.createQuery("SELECT * FROM Prenotazione p WHERE p.fine_prenotazione=:finePrenotazione and id_automobile=:idAutomobile")
-					.setParameter("idAuto", id).uniqueResult();
-			transaction.commit();
-		} catch (Exception e) {
-			if (transaction != null) {
-				transaction.rollback();
-			}
-			e.printStackTrace();
-		}
-		return auto;
 	}
 	
 }

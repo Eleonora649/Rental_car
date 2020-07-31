@@ -23,6 +23,7 @@ public class ListaAutomobili extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		AutomobileService auto = new AutomobileService();
 		List<Automobile> listaAutomobili = auto.listAll();
 		request.setAttribute("listaAutomobili", listaAutomobili);

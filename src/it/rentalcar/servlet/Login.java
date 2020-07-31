@@ -42,6 +42,7 @@ public class Login extends HttpServlet {
 		Utente currentUser = null;
 		try {
 			currentUser = login.authenticate(email, password);
+			System.out.println(currentUser.getEmail());
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}

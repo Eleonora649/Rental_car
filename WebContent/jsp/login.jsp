@@ -1,7 +1,5 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <div class="container">
-	
-	<%-- <c:if test="${currentUser == 'customer'}"> --%>
 	
 		<form method="post" action="">
 		  <div class="form-group">
@@ -16,5 +14,4 @@
 		  <button type="submit" class="btn btn-primary bottone">Submit</button>
 		</form>
 	
-	<%-- </c:if> --%>
 </div>

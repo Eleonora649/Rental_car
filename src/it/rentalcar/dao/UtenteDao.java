@@ -13,8 +13,6 @@ import it.rentalcar.model.Utente;
 import it.rentalcar.util.HibernateUtil;
 
 public class UtenteDao {
-	private Session currentSession;
-	private Transaction currentTransaction;
 	
 	public UtenteDao() {
 	}
@@ -91,7 +89,7 @@ public class UtenteDao {
 		//return utente;
 	}
 
-	public void updateUtente (Utente utente) {
+	public void updateUtente(Utente utente) {
 		Transaction transaction = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
 			transaction = session.beginTransaction();

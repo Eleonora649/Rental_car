@@ -4,6 +4,7 @@
 
 <c:out value="${requestScope.currentUser}"/>
 <c:out value="${requestScope.automobile}"/>
+<c:out value="${requestScope.prenotazione}"/>
 	<table class="table">
 		<thead>
 			<tr>
@@ -19,8 +20,13 @@
 					<th scope="row"></th>
 					<td>${currentUser.nome} ${currentUser.cognome}</td>
 					<td>${automobile.modello} ${automobile.targa} ${automobile.casaCostruttrice}</td>
-					<td>${prenotazione.inizioPrenotazione}</td>
-					<td>${prenotazione.finePrenotazione}</td>
+					<td><fmt:formatDate value='${prenotazione.inizioPrenotazione}' var='data' type='date' pattern='yyyy-MM-dd'/>${prenotazione.inizioPrenotazione}</td>
+					<td><fmt:formatDate value='${prenotazione.finePrenotazione}' var='data' type='date' pattern='yyyy-MM-dd'/>${prenotazione.finePrenotazione}</td>
+				</tr>
+				<tr> <td></td><td></td><td></td><td></td>
+					<td>
+			 			<a href="start" type="button" class="btn btn-primary"> Conferma</a>
+					</td>
 				</tr>
 		</tbody>
 	</table>

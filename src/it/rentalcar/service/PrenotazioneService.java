@@ -25,7 +25,7 @@ public class PrenotazioneService {
 		prenotazioneDao = new PrenotazioneDao();
 	}
 	
-	public Prenotazione persist(String inizioPrenotazione, String finePrenotazione, String utente, String automobile) throws NullPointerException {
+	public Prenotazione persist(String inizioPrenotazione, String finePrenotazione, Utente utente, Automobile automobile) throws NullPointerException {
 		Prenotazione prenotazione = null;
 		final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date inizioPren, finePren = null;
@@ -41,34 +41,30 @@ public class PrenotazioneService {
 		} catch (ParseException e1) {
 			e1.printStackTrace();
 		}
-		UtenteService userS = new UtenteService();
-		int idUtente=Integer.parseInt(utente);
-		Utente user = userS.findUtenteId(idUtente);
-
-		AutomobileService autoS = new AutomobileService();
-		int idAutomobile = Integer.parseInt(automobile);
-		Automobile auto = autoS.findAutomobileId(idAutomobile);
-
-		if(getPrenotazioneId(idAutomobile)==true) {
-			if(!StringUtils.isNullOrEmpty(inizioPrenotazione) && !StringUtils.isNullOrEmpty(finePrenotazione)) {
-				try {
-					prenotazione = new Prenotazione(inizioPren, finePren, user, auto);
+		if(!StringUtils.isNullOrEmpty(inizioPrenotazione) && !StringUtils.isNullOrEmpty(finePrenotazione)) {
+			try {
+				Prenotazione exist = prenotazioneDao.findPrenotazioneExist(automobile, inizioPren);
+				if(exist != null) 
+				{
+					prenotazione = new Prenotazione(inizioPren, finePren, utente, automobile);
 					prenotazioneDao.persist(prenotazione);
-				} catch (HibernateException e) {
-					throw e;
-				} catch (Exception e) {
-					e.printStackTrace();
-					throw new NullPointerException();
 				}
-			} else {
+			} catch (HibernateException e) {
+				throw e;
+			} catch (Exception e) {
+				e.printStackTrace();
 				throw new NullPointerException();
 			}
-		}
+		} else {
+			throw new NullPointerException();
+			}
 		return prenotazione;
 	}	
 
 	private boolean getPrenotazioneId(int id) {
-		Automobile auto = prenotazioneDao.findAutomobileById(id);
+		AutomobileService autoS = new AutomobileService();
+		Automobile auto = autoS.findAutomobileId(id);
+//		Automobile auto = prenotazioneDao.findAutomobileById(id);
 		if(auto!=null) {
 			return true;
 		} else {

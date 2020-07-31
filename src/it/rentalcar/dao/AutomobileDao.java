@@ -34,24 +34,6 @@ public class AutomobileDao {
 		}
 	}
 
-	public Categoria findCategoriaId(int id) {
-		Transaction transaction = null;
-		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-			transaction = session.beginTransaction();
-
-			Categoria cat =(Categoria) session.find(Categoria.class, id); 
-			System.out.println(cat.getNome());
-
-			transaction.commit();
-			return cat;
-		} catch (Exception e) {
-			if (transaction != null) {
-				transaction.rollback();
-			} e.printStackTrace();
-			return null;
-		}
-	}
-
 	public List<Automobile> findAll() {
 		Transaction transaction = null;
 		List<Automobile> auto = null;
@@ -113,6 +95,24 @@ public class AutomobileDao {
 				transaction.rollback();
 			}
 			e.printStackTrace();
+		}
+	}
+	
+	public Categoria findCategoriaId(int id) {
+		Transaction transaction = null;
+		try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+			transaction = session.beginTransaction();
+
+			Categoria cat =(Categoria) session.find(Categoria.class, id); 
+			System.out.println(cat.getNome());
+
+			transaction.commit();
+			return cat;
+		} catch (Exception e) {
+			if (transaction != null) {
+				transaction.rollback();
+			} e.printStackTrace();
+			return null;
 		}
 	}
 }

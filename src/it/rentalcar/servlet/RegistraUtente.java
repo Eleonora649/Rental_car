@@ -55,5 +55,6 @@ public class RegistraUtente extends HttpServlet {
 			e.printStackTrace();
 		}
 		request.setAttribute("utente", user);
+		response.sendRedirect("login");
 	}
 }
